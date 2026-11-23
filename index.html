@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NEXUS.GG — сборка и конфиг под твой ПК</title>
-<meta name="description" content="Моды и конфиги для FPS: Minecraft, CS2, GTA 5 RP, Roblox">
+<meta name="description" content="Моды и конфиги для FPS: Minecraft, SA-MP, CS2, Roblox">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
@@ -53,23 +53,32 @@ textarea:focus{border-color:var(--ok)}
 footer{color:var(--mu);font-size:12px;text-align:center;padding:20px 0 30px}
 #toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#1d2029;border:1px solid var(--bh);border-radius:12px;padding:10px 16px;opacity:0;transition:.25s;z-index:50;pointer-events:none;max-width:90vw;text-align:center}
 #toast.s{opacity:1;transform:translate(-50%,0)}
+select{width:100%;min-height:44px;background:var(--s3);color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:0 12px;font:inherit;margin:6px 0}
+.sc{max-height:340px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#2a2e3a transparent}.sc::-webkit-scrollbar{width:6px}.sc::-webkit-scrollbar-thumb{background:#2a2e3a;border-radius:3px}
+.ready{text-align:center;color:#03130D;background:var(--ok);border-radius:12px;padding:8px;font-weight:700;margin-bottom:10px;animation:bn 1s 3}@keyframes bn{50%{transform:translateY(4px)}}
+.stat{font-size:12px;color:var(--mu);display:flex;gap:12px;flex-wrap:wrap;margin:-6px 0 14px}.stat b{color:var(--ok)}
+.bank{background:linear-gradient(135deg,#1a1c22,#0E1015);border-color:var(--bh)}.bank .cn{font-size:20px;letter-spacing:2px;margin:10px 0;overflow-wrap:anywhere}
+details summary{cursor:pointer;color:var(--ok);margin-top:6px}.feat{margin:6px 0 10px;padding-left:18px;color:var(--mu);font-size:13px}
+body.sec{--ok:#00FF88}body.sec .logo{animation:gl .3s infinite alternate}@keyframes gl{to{transform:skewX(-8deg);text-shadow:2px 0 #f0f,-2px 0 #0ff}}
 </style></head><body>
 <header><div class="wrap">
-<div class="hr"><div class="logo">NEXUS.GG<i></i></div><button onclick="doctor()">Доктор ошибок</button><button id="pro" onclick="proM()">PRO</button></div>
+<div class="hr"><div class="logo" onclick="logo()" style="cursor:pointer">NEXUS.GG<i></i></div><button onclick="doctor()">Доктор ошибок</button><button id="pro" onclick="proM()">PRO</button></div>
 <nav class="tabs" id="tabs"></nav></div></header>
 <main class="wrap">
 <h1>Сборка и конфиг под твой ПК</h1>
 <p class="sub">Выбери игру и задачу — получи моды и конфиги для FPS.</p>
+<div class="stat m" title="Демо-счётчик: цифры симулируются, реальных пользователей сайт не считает">● Онлайн <b id="on">0</b> · <span style="color:#F59E0B">AFK <b id="afk" style="color:#F59E0B">0</b></span> · ты: <b id="me">Online</b></div>
 <div class="card">
 <textarea id="q" maxlength="300"></textarea>
 <div class="row" id="chips"></div><div class="hint" id="hint"></div>
-<div class="lb">Уровень ПК</div><div class="row seg" id="hw"></div>
+<div id="srv"></div><div class="lb">Уровень ПК</div><div class="row seg" id="hw"></div>
 <button class="cta" id="go" onclick="build()">Собрать</button>
 </div>
 <div id="res"></div>
-<div class="card host"><div><b>Сервер для игры с друзьями?</b><br><small style="color:var(--mu)">Промокод <span class="m" style="color:var(--ok)">NEXUS</span> — скидка 25%</small></div><div class="row" style="margin:0"><button onclick="cp('NEXUS')">Копировать</button><a class="b" href="#" onclick="toast('Партнёрская ссылка пока не подключена');return false">Оффер</a></div></div>
+<div class="card host"><div><b>Сервер для игры с друзьями?</b><br><small style="color:var(--mu)">Промокод <span class="m" style="color:var(--ok)">NEXUS</span> — скидка 25%</small></div><div class="row" style="margin:0"><button onclick="cp('NEXUS')">Копировать</button></div></div>
 </main>
-<footer>NEXUS.GG · не аффилирован с Mojang, Valve, Rockstar и Roblox</footer>
+<div class="wrap"><div class="card bank"><div style="display:flex;gap:12px;align-items:center"><div style="font-size:36px">🐈‍⬛</div><div><b>Поддержать автора</b><br><small style="color:var(--mu)">Банка Monobank — на хостинг и новые сборки</small></div></div><div class="m cn" id="cn"></div><div class="row" style="margin:0"><a class="b" id="jar" target="_blank" rel="noopener noreferrer" style="background:var(--s3)">Открыть Банку Monobank</a><button onclick="copyCard()">Скопировать карту</button></div></div></div>
+<footer>NEXUS.GG · Minecraft · SA-MP · CS2 · Roblox<br>Не аффилирован с Mojang, Valve, Roblox и командами SA-MP / CRMP. Названия серверов принадлежат их владельцам; правила серверов проверяй на их сайтах.</footer>
 <div id="toast"></div>
 <script>
 var $=function(s){return document.querySelector(s)};
@@ -81,17 +90,17 @@ mc:{n:'Minecraft',b:[40,75,140],r:[3.5,5,8],def:'fps',ph:'на слабый но
 ['weak','Слабый ПК','слабый пк','Куллинг, динамический FPS и лёгкие настройки',/слаб|ноут|потянет/],
 ['fps','Макс FPS','максимум fps','Полный набор оптимизации рендера и памяти',/фпс|fps|лаг/],
 ['pvp','PvP / Фреймтайм','pvp, ровный фреймтайм','Без лишних анимаций и частиц, индикаторы худа',/pvp|пвп|фреймтайм|бой/],
-['vis','Визуал / Комфорт','красивая картинка','Шейдеры и красивые блоки без потери плавности',/красив|график|шейдер|визуал|комфорт/]]},
+['vis','Легит-визуалы','легит-визуалы','Разрешённые визуальные моды без запрещённых функций',/красив|график|шейдер|визуал|комфорт/]]},
 cs2:{n:'CS2',b:[60,120,230],r:[4,6,8],def:'fps',ph:'конфиг на фпс и прицел для слабой видеокарты',chips:[
 ['fps','Макс FPS','максимум fps','Видео, сеть, радар/худ, параметры запуска',/фпс|fps|лаг/],
 ['aim','Аим / Сенса','аим и сенса','Блок мыши, сенса и прицел с viewmodel',/аим|aim|сенс|прицел|мыш/],
 ['weak','Слабый ПК','слабый пк','Лимит FPS, низкое видео, стабильный фреймтайм',/слаб|ноут|видеокарт/],
-['pro','Турнир / Кинцо','турнир, кинцо','Чек-лист турнира и режим записи кинцо',/турнир|кинцо|запис|демо/]]},
-gta:{n:'GTA 5 RP',b:[28,52,95],r:[5,7,10],def:'city',ph:'буст фпс без мыла для гта 5 рп',chips:[
-['weak','Слабый ПК','слабый пк','Минимальная графика и экономия ОЗУ/VRAM',/слаб|ноут|потянет/],
-['city','Без лагов в городе','без лагов в городе','Плотность, прорисовка и стабильность стриминга',/город|лаг|фриз|плотн/],
-['pretty','Красиво + FPS','красиво и без потери fps','Максимум картинки в бюджете FPS',/красив|мыл|график|резк/],
-['gun','Стрельба / Капты','стрельба, капты','Отклик, пост-эффекты и стабильный фреймтайм',/стрельб|капт|пвп|pvp|гонк/]]},
+['pro','Турнир / Плавность','турнир, плавность','Чек-лист турнира и ровный фреймтайм',/турнир|плавн|кинцо|запис/]]},
+samp:{n:'SA-MP',b:[45,80,115],r:[1.5,2,3],def:'stab',ph:'сборка для капт на слабый ПК и стабильный fps',chips:[
+['ghetto','Гетто / Капты','гетто, капты','Отклик и ровный фреймтайм на каптах',/гетто|капт|стрелк/],
+['weak','Слабый ПК','слабый пк','Минимум графики и лёгкие заменки',/слаб|ноут|потянет/],
+['mods','Модельки / Заменки','модельки и заменки','Лёгкое оружие, текстуры, timecyc и установка',/модел|заменк|скин|текстур/],
+['stab','Стабильный FPS','стабильный fps','Лимит FPS, питание и антивирус против фризов',/стабил|фриз|лаг|fps|фпс/]]},
 rbx:{n:'Roblox',b:[45,90,160],r:[2.5,3.5,5],def:'fps',ph:'максимум фпс в роблоксе',chips:[
 ['fps','Макс FPS','максимум fps','Графика, фон и окно под максимум кадров',/фпс|fps|лаг/],
 ['weak','Слабый ПК','слабый пк','Минимальное качество и экономия ресурсов',/слаб|ноут|потянет/],
@@ -113,6 +122,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM()});
 /* ---------- UI ---------- */
 function setGame(k){game=k;pm={};$('#q').value='';items=[];$('#res').innerHTML='';head()}
 function head(){var C=G[game].chips;
+$('#srv').innerHTML=game==='mc'?'<div class="lb">Сервер</div><select id="sv" onchange="srv=this.value;if(items.length)build()" aria-label="Сервер">'+SV.map(function(x){return '<option value="'+x[0]+'"'+(x[0]===srv?' selected':'')+'>'+x[1]+'</option>'}).join('')+'</select>':'';
 $('#tabs').innerHTML=Object.keys(G).map(function(k){return '<button class="tab '+(k===game?'on':'')+'" onclick="setGame(\''+k+'\')">'+G[k].n+'</button>'}).join('');
 $('#q').placeholder=G[game].ph;
 $('#chips').innerHTML=C.map(function(c){return '<button class="'+(pm[c[0]]?'on':'')+'" title="'+esc(c[3])+'" onclick="chip(\''+c[0]+'\')">'+c[1]+'</button>'}).join('');
@@ -130,7 +140,7 @@ function o(id,name,desc,kind,gain,ram,modes,blk,x){var i={id:id,name:name,desc:d
 function pick(list,a,t){return list.filter(function(i){return i.modes[0]==='all'||i.modes.some(function(m){return a[m]})||(i.kw&&i.kw.test(t))})}
 function mcAll(a){var w=hw===0,rd=[6,10,14][hw]-(a.weak?(hw?2:0):0),sd=[5,8,10][hw],xmx=['2G','4G','6G'][hw];
 var set=L(['NEXUS.GG — настройки Minecraft '+ver+' ('+ldr+') · '+HN[hw],'','Настройки видео (Esc → Настройки → Видео):','- Дальность прорисовки: '+rd+' чанков, симуляция: '+sd,'- Графика: '+(w||a.pvp?'Быстро':'Улучшенная')+', плавное освещение: вкл','- Облака: '+(w?'выкл':'быстрые')+', частицы: '+(a.pvp||w?'минимальные':'уменьшенные'),'- Тени сущностей: '+(a.pvp||w?'выкл':'вкл')+', анимации блоков (Sodium Extra): '+(a.pvp?'выкл':'вкл'),'- Макс. FPS: без ограничения (или частота монитора), VSync: выкл','- Mipmap: '+(w?'1':'2')+', сглаживание биомов: '+(w?'1x1':'3x3'),a.pvp?'- Худ: включи индикаторы (AppleSkin), отключи тряску камеры и покачивание рук':'','','JVM-аргументы лаунчера (Java 17/21):','-Xmx'+xmx+' -Xms'+xmx+' -XX:+UseG1GC -XX:MaxGCPauseMillis=50 -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20','','Установка: Fabric Loader '+ldr+' для '+ver+' → положи .jar в папку mods.']);
-var M=[['fabric-api','Fabric API','Базовая библиотека для Fabric-модов','Мод',0,0,'all'],['sodium','Sodium','Рендер: главный буст FPS','FPS',.5,0,'all'],['lithium','Lithium','Оптимизация игровой логики','FPS',.12,0,'all'],['ferritecore','FerriteCore','Меньше потребление ОЗУ','ОЗУ',.02,.2,'all'],['modernfix','ModernFix','Быстрый запуск и меньше памяти','ОЗУ',.05,.1,'all'],['entityculling','Entity Culling','Не рисует скрытые сущности','FPS',.08,0,'all'],['immediatelyfast','ImmediatelyFast','Ускоряет интерфейс и текст','FPS',.06,0,'all'],['moreculling','More Culling','Отсекает невидимые блоки и предметы','FPS',.05,0,'weak,fps'],['dynamic-fps','Dynamic FPS','Снижает нагрузку в фоне и в паузе','ОЗУ',.02,.05,'weak'],['sodium-extra','Sodium Extra','Отключает частицы и анимации — ровный фреймтайм','FPS',.07,0,'pvp,weak'],['appleskin','AppleSkin','Индикаторы голода и насыщения на худе','Мод',0,0,'pvp'],['iris','Iris Shaders','Шейдеры поверх Sodium','Графика',-.15,-.1,'vis'],['continuity','Continuity','Красивое стекло и стыки блоков','Графика',-.02,0,'vis'],['lambdynamiclights','LambDynamicLights','Динамический свет от предметов','Графика',-.02,0,'vis'],['xaeros-minimap',"Xaero's Minimap",'Мини-карта в углу экрана','Мод',0,0,'',/карт|minimap/]];
+var M=[['fabric-api','Fabric API','Базовая библиотека для Fabric-модов','Мод',0,0,'all'],['sodium','Sodium','Рендер: главный буст FPS','FPS',.5,0,'all'],['lithium','Lithium','Оптимизация игровой логики','FPS',.12,0,'all'],['ferritecore','FerriteCore','Меньше потребление ОЗУ','ОЗУ',.02,.2,'all'],['modernfix','ModernFix','Быстрый запуск и меньше памяти','ОЗУ',.05,.1,'all'],['entityculling','Entity Culling','Не рисует скрытые сущности','FPS',.08,0,'all'],['immediatelyfast','ImmediatelyFast','Ускоряет интерфейс и текст','FPS',.06,0,'all'],['moreculling','More Culling','Отсекает невидимые блоки и предметы','FPS',.05,0,'weak,fps'],['dynamic-fps','Dynamic FPS','Снижает нагрузку в фоне и в паузе','ОЗУ',.02,.05,'weak'],['sodium-extra','Sodium Extra','Отключает частицы и анимации — ровный фреймтайм','FPS',.07,0,'pvp,weak'],['appleskin','AppleSkin','Индикаторы голода и насыщения на худе','Мод',0,0,'pvp'],['iris','Iris Shaders','Шейдеры поверх Sodium','Графика',-.15,-.1,'vis'],['cull-less-leaves','Cull Less Leaves','Красивая листва без лишней нагрузки','Графика',0,0,'vis'],['continuity','Continuity','Красивое стекло и стыки блоков','Графика',-.02,0,'vis'],['lambdynamiclights','LambDynamicLights','Динамический свет от предметов','Графика',-.02,0,'vis'],['xaeros-minimap',"Xaero's Minimap",'Мини-карта в углу экрана','Мод',0,0,'',/карт|minimap/]];
 var l=M.map(function(m){return o(m[0],m[1],m[2],m[3],m[4],m[5],m[6],'',{mod:1,kw:m[7]})});
 l.push(o('mcset','Настройки видео и JVM','Готовые значения под твой ПК','Конфиг',.05,0,'all',set,{cfg:1}));return l}
 function cs2All(a){var w=hw===0;
@@ -143,15 +153,17 @@ var tour=L(['// Турнир / кинцо','// Турнир: закрой ове
 var lo='-novid -high -nojoy +exec nexus_fps_autoexec';
 var launch=L(['Steam → Библиотека → CS2 → Свойства → Параметры запуска:',lo,'','Файл nexus_fps_autoexec.cfg положи сюда:','...\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\game\\csgo\\cfg\\','Либо выполни в консоли игры: exec nexus_fps_autoexec']);
 var vid=L(['Видео в меню CS2 ('+HN[hw]+'):','- Режим: полноэкранный, MSAA: '+(w?'выкл':'2x CMAA2'),'- Тени: '+(w?'низкие':'средние')+', детализация моделей и текстур: '+(w?'низкая':'средняя'),'- Эффекты и шейдеры: '+(w?'низкие':'средние')+', Boost Player Contrast: вкл','- VSync: выкл, NVIDIA Reflex: вкл']);
-return [o('f','Блок: FPS и видео','Лимит FPS и служебные команды','FPS',.12+(w?.08:0),0,'all',fps,{cfg:1}),o('n','Блок: сеть','rate и интерполяция','FPS',.02,0,'all',net,{cfg:1}),o('m','Блок: мышь и сенса','eDPI-ориентиры и базовые значения','Конфиг',0,0,'aim,pro',mouse,{cfg:1}),o('h','Блок: радар, худ, бинды','Радар, лоадаут и бросок с прыжка','Конфиг',0,0,'all',hud,{cfg:1}),o('c','Блок: прицел и viewmodel','Читаемый прицел и позиция оружия','Конфиг',0,0,'aim,pro',cross,{cfg:1}),o('t','Блок: турнир / кинцо','Чек-лист и режим записи','Конфиг',0,0,'pro',tour,{cfg:1}),o('l','Параметры запуска','Вставь в Steam, положи cfg в папку','FPS',.1,.05,'all',launch,{copy:lo}),o('v','Видео в меню игры','Что включить в настройках видео','Конфиг',w?.22:.08,.05,'all',vid)]}
-function gtaAll(a){var w=hw===0,T=['Normal','High','Very High'][hw];
-var g=L(['Графика (Настройки → Графика):','- DirectX 11, Texture Quality: '+T+', Shader Quality: '+(w?'Normal':'High'),'- Shadow Quality: '+(w?'Normal':'High')+', Reflection Quality: Normal, Reflection MSAA: выкл','- MSAA/FXAA: выкл, Grass Quality: Normal, Particles: Normal','- Ambient Occlusion: '+(w?'Off':'Normal')+', Tessellation: Off, Anisotropic: x4','- VSync: выкл, Frame Limiter: '+(w?'60':'без лимита')]);
-var cl=L(['Параметры запуска (commandline.txt в папке GTA V):','-ignoreprofile','-noFirstRun','-high','','Чек-лист перед заходом:','[ ] свежий драйвер GPU   [ ] игра на SSD','[ ] закрыт браузер и оверлеи   [ ] свободно > 3 ГБ ОЗУ','[ ] план питания: Высокая производительность','[ ] кэш клиента очищен (по инструкции лаунчера сервера)']);
-var ci=L(['Плотные зоны и город:','- Population Density и Variety: '+(w?'20–30%':'40–60%')+', Distance Scaling: '+(w?'30–40%':'50–70%'),'- Extended Distance Scaling: 0, Extended Shadows Distance: 0','- Файл подкачки Windows: не менее 16 ГБ, фоновые загрузки отключены','- В людных местах не меняй графику — перезайди, если начались фризы стриминга','- Скорость езды в первое время: даёт подгрузиться текстурам']);
-var wk=L(['Слабый ПК:','- Разрешение: native, масштаб 0.8–0.9 если не тянет','- Текстуры: Normal, тени: Normal, постэффекты: Normal','- Выключи Motion Blur, Depth of Field, Lens Flare','- Закрой Chrome/Discord-оверлей/запись экрана']);
-var pt=L(['Красиво + FPS:','- Текстуры: '+T+', Shader Quality: High, MSAA: 2x максимум','- Резкость: включи Image Sharpening в драйвере NVIDIA/AMD вместо MSAA','- Grass: Normal, Soft Shadows: Softer, Tessellation: Off','- Если FPS просел — понизь только тени и дальность']);
-var gn=L(['Стрельба / капты:','- Motion Blur и Depth of Field: выкл, Film Grain: 0','- VSync выкл, лимит FPS = частота монитора −2 для ровного фреймтайма','- Закрой фоновые загрузки: ping и отклик важнее картинки','- Тени: Normal, MSAA: выкл — меньше мыла и просадок в перестрелках']);
-return [o('g','Настройки графики','DirectX, текстуры, тени, пост-эффекты','Конфиг',.22,.1,'all',g),o('cl','Параметры запуска и чек-лист','commandline.txt и подготовка','FPS',.1,.1,'all',cl,{copy:'-ignoreprofile -noFirstRun -high'}),o('ci','Стабильность в городе','Плотность, прорисовка, стриминг','FPS',.1,.1,'city',ci),o('wk','Слабый ПК','Минимум нагрузки','FPS',.18,.15,'weak',wk),o('pt','Красиво + FPS','Картинка в бюджете FPS','Графика',-.08,0,'pretty',pt),o('gn','Стрельба и капты','Отклик и ровный фреймтайм','FPS',.06,0,'gun',gn)]}
+return [o('f','Блок: FPS и видео','Лимит FPS и служебные команды','FPS',.12+(w?.08:0),0,'all',fps,{cfg:1}),o('n','Блок: сеть','rate и интерполяция','FPS',.02,0,'all',net,{cfg:1}),o('m','Блок: мышь и сенса','eDPI-ориентиры и базовые значения','Конфиг',0,0,'aim,pro',mouse,{cfg:1}),o('h','Блок: радар, худ, бинды','Радар, лоадаут и бросок с прыжка','Конфиг',0,0,'all',hud,{cfg:1}),o('c','Блок: прицел и viewmodel','Читаемый прицел и позиция оружия','Конфиг',0,0,'aim,pro',cross,{cfg:1}),o('t','Блок: турнир / плавность','Чек-лист турнира и запись','Конфиг',0,0,'pro',tour,{cfg:1}),o('l','Параметры запуска','Вставь в Steam, положи cfg в папку','FPS',.1,.05,'all',launch,{copy:lo}),o('v','Видео в меню игры','Что включить в настройках видео','Конфиг',w?.22:.08,.05,'all',vid)]}
+function sampAll(a){var w=hw===0,fl=[60,90,100][hw],ps=w?8:10;
+var cfg=L(['fpslimit='+fl,'pagesize='+ps,'multicore='+(w?0:1),'disableheadmove=1','ime=0']);
+var g=L(['Настройки GTA SA / SA-MP ('+HN[hw]+'):','- Разрешение родное; Visual FX: '+(w?'Low':'Medium')+'; Draw distance: '+(w?'1/3':'1/2'),'- Mip mapping: '+(w?'off':'on')+', Anti-alias: off, Frame limiter: off','- Если sa-mp.cfg не подхватился, введи в чате: /fpslimit '+fl+', /pagesize '+ps+', /headmove 0','- gta_sa.exe → Свойства → Совместимость: от имени администратора, без оптимизации во весь экран','- Приоритет gta_sa.exe: выше среднего; закрой браузер и оверлеи','- Игру держи вне Program Files, на SSD; папку добавь в исключения антивируса','- Для CRMP настройки те же, клиент другой']);
+var st=L(['Стабильный FPS:','- fpslimit = '+fl+' (не выше частоты монитора), VSync выкл','- Windows: план «Высокая производительность»','- При фризах убери лишние .asi/.cleo и перезапусти клиент']);
+var gh=L(['Гетто / Капты:','- Главное — отклик: fpslimit не ниже 60, pagesize '+ps,'- Лёгкие заменки оружия, без анимированных скинов и тяжёлых худов','- Закрой запись экрана и перезапусти игру перед каптом']);
+var wk=L(['Слабый ПК:','- Visual FX Low, минимальная дальность прорисовки','- Убери ENB/ReShade, текстуры 512 или меньше','- Удали тяжёлые заменки, оставь только нужные']);
+var ml=L(['Установка заменок через modloader:','1. Скачай ModLoader для GTA SA из каталога и распакуй в папку игры','2. В папке игры появится modloader\\ — создай там подпапку для каждой заменки','3. Положи файлы заменки (.dff/.txd/.ide) в свою подпапку','4. Запусти игру. Если вылет — убери заменки по одной','Проверяй файлы антивирусом, качай из каталогов с отзывами.']);
+var mk=function(id,n,d,m,gain,k,txt,link){return o(id,n,d,'Мод',gain,.05,m,L([n+':',txt,'','Каталог: '+link,'Установка — см. блок «Установка заменок»']),{link:link})};
+var C1='https://www.gtainside.com/en/sanandreas/',C2='https://libertycity.net/files/gta-san-andreas/';
+return [o('cfg','sa-mp.cfg','Лимит FPS, чат и ядра под твой ПК','Конфиг',.15,.1,'all',cfg,{cfg:1}),o('g','Графика и Windows','Настройки GTA SA и системы','Конфиг',.2,.1,'all',g),o('st','Стабильный FPS','Лимит, питание, антивирус','FPS',.08,0,'stab',st),o('gh','Гетто / Капты','Отклик на каптах','FPS',.06,0,'ghetto',gh),o('wk','Слабый ПК','Минимум нагрузки','FPS',.18,.15,'weak',wk),mk('m1','Лёгкое оружие для каптов','Низкополигональные заменки','ghetto,mods',.04,0,'Ищи в категории Weapons: модели с малым весом текстур (до 1 МБ).',C1),mk('m2','Урезанные текстуры','Меньше VRAM на слабых ПК','weak,mods',.1,0,'Ищи пакеты текстур 256–512 для машин и пешеходов.',C2),mk('m3','Чистый timecyc / небо','Без тумана и лишних эффектов','mods,stab',.03,0,'Ищи timecyc и «clean sky» — меньше эффектов, чище картинка.',C1),o('ml','Установка через modloader','Пошаговая инструкция','Конфиг',0,0,'mods,ghetto,weak',ml)]}
 function rbxAll(a){var w=hw===0,q=['1–3','4–6','7–10'][hw];
 var g=L(['Графика Roblox:','- Esc → Settings → Graphics Mode: Manual, Graphics Quality: '+q,'- Тени и Future-освещение выключи, Fullscreen: вкл (F11)','- В опыте со слабой оптимизацией уменьши дальность и эффекты']);
 var bg=L(['Фоновые задачи:','- Закрой браузер с вкладками, Discord-оверлей, запись экрана','- Windows: Параметры → Игры → Игровой режим: вкл','- Диспетчер задач: убери автозагрузку лишнего','- Ноутбук: питание от сети, план «Высокая производительность»']);
@@ -161,13 +173,13 @@ var wk=L(['Слабый ПК:','- Качество графики 1–3, дал�
 var ow=L(['Свои настройки (шаблон):','Мой ПК: ____ / ОЗУ: ____ / GPU: ____','Измерение 1: качество ___, FPS ___','Измерение 2: качество ___, FPS ___','Рекомендуемый диапазон: '+q,'Как мерить: Shift+F5 → одна и та же локация 60 секунд','Выбери самое высокое качество, где FPS не падает ниже 1% low = '+(w?'30':'60')]);
 return [o('g','Уровень графики','Качество и тени под твой ПК','Конфиг',.2,.1,'all',g),o('bg','Фоновые задачи','Освободи ресурсы','FPS',.1,.15,'all',bg),o('wn','Окно и масштабирование','Fullscreen, DPI, разрешение','FPS',.1,0,'all',wn),o('sm','Плавный экран','Лимит FPS без разрывов','FPS',.04,0,'smooth,fps',sm),o('wk','Слабый ПК','Минимальное качество','FPS',.15,.1,'weak',wk),o('ow','Свои настройки','Шаблон и замер FPS','Конфиг',0,0,'own',ow)]}
 /* ---------- Modrinth ---------- */
-var API='https://api.modrinth.com/v2';
+var API='https://api.modrinth.com/v2';var CHEAT=/xray|x-ray|freecam|esp|radar|cheat|killaura|autoclick|autototem|wallhack|hack/i;
 function fj(u,ms){var c=new AbortController(),t=setTimeout(function(){c.abort()},ms||6000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('http '+r.status);return r.json()})}
 async function enrichMC(l,a,t){src='Встроенный список (API недоступен)';var live=0;
 try{var q=t.replace(/1\.\d+(\.\d+)?/g,'').replace(/[^a-z0-9 ]/gi,' ').trim().slice(0,50);
 if(q.length>2){var fac=[['project_type:mod'],['versions:'+ver],['categories:fabric']];if(a.fps||a.weak)fac.push(['categories:optimization']);
 var r=await fj(API+'/search?limit=8&index=downloads&query='+encodeURIComponent(q)+'&facets='+encodeURIComponent(JSON.stringify(fac)));
-var n=0;r.hits.forEach(function(h){if(n<2&&!l.some(function(x){return x.id===h.slug})){l.push(o(h.slug,h.title,(h.description||'').slice(0,80),'Мод',.02,0,'all','',{mod:1,live:1,icon:h.icon_url,dl:h.downloads}));n++}});live=1}}catch(e){}
+var n=0;r.hits.forEach(function(h){if(n<2&&!CHEAT.test(h.slug+' '+h.title)&&!l.some(function(x){return x.id===h.slug})){l.push(o(h.slug,h.title,(h.description||'').slice(0,80),'Мод',.02,0,'all','',{mod:1,live:1,icon:h.icon_url,dl:h.downloads}));n++}});live=1}}catch(e){}
 try{var ids=l.filter(function(x){return x.mod}).map(function(x){return x.id}),ps=await fj(API+'/projects?ids='+encodeURIComponent(JSON.stringify(ids)));
 ps.forEach(function(p){l.forEach(function(x){if(x.id===p.slug){x.icon=p.icon_url;x.live=1}})});live=1}catch(e){}
 await Promise.all(l.filter(function(x){return x.mod}).map(async function(x){try{var k=x.id+ver;if(!cache[k])cache[k]=fj(API+'/project/'+x.id+'/version?game_versions='+encodeURIComponent(JSON.stringify([ver]))+'&loaders='+encodeURIComponent('["fabric"]'));
@@ -175,12 +187,12 @@ var v=await cache[k],f=v[0]&&(v[0].files.find(function(z){return z.primary})||v[
 l.forEach(function(x){if(x.mod)x.page='https://modrinth.com/mod/'+x.id});if(live)src='Modrinth API · живые данные'}
 /* ---------- build ---------- */
 async function build(){if(busy)return;busy=true;$('#go').disabled=true;
-$('#res').innerHTML='<div class="card" style="text-align:center"><span class="m" style="color:var(--ok)">Анализирую запрос…</span></div>';
-var t=$('#q').value.trim().toLowerCase(),a=active();head();
-var v=t.match(/1\.\d{1,2}(\.\d{1,2})?/);ver=v?v[0]:'1.20.1';var wait=new Promise(function(r){setTimeout(r,900)});
-try{var all=game==='mc'?mcAll(a):game==='cs2'?cs2All(a):game==='gta'?gtaAll(a):rbxAll(a);items=pick(all,a,t);
-if(game==='mc')await Promise.all([enrichMC(items,a,t),wait]);else{src='Сгенерировано в браузере';await wait}
-bundles=game==='mc'?[['nexus_mc_settings.txt',function(i){return i.cfg},'===']]:game==='cs2'?[['nexus_fps_autoexec.cfg',function(i){return i.cfg},'//'],['nexus_cs2_launch_and_video.txt',function(i){return !i.cfg},'===']]:[['nexus_'+(game==='gta'?'gta5rp_setup':'roblox_fps_preset')+'.txt',function(){return true},'===']];
+$('#res').innerHTML='<div class="card" style="text-align:center"><span class="m" id="ms" style="color:var(--ok)">Анализирую запрос…</span></div>';
+var t=$('#q').value.trim().toLowerCase(),a=active();head();eggs(t);
+var v=t.match(/1\.\d{1,2}(\.\d{1,2})?/);ver=v?v[0]:'1.20.1';var ph=['Анализирую запрос…','Считаю кадры…','Уговариваю монитор…','Сверяю с правилами сервера…','Прогреваю видеокарту…'],pi=0,iv=setInterval(function(){var e=$('#ms');if(e)e.textContent=ph[++pi%ph.length]},320),wait=new Promise(function(r){setTimeout(r,1000)}).then(function(){clearInterval(iv)});
+try{var all=game==='mc'?mcAll(a):game==='cs2'?cs2All(a):game==='samp'?sampAll(a):rbxAll(a);items=pick(all,a,t);
+if(game==='mc'){await Promise.all([enrichMC(items,a,t),wait]);filterSrv()}else{excl=[];src='Сгенерировано в браузере';await wait}
+bundles=game==='mc'?[['nexus_mc_settings.txt',function(i){return i.cfg},'===']]:game==='cs2'?[['nexus_fps_autoexec.cfg',function(i){return i.cfg},'//'],['nexus_cs2_launch_and_video.txt',function(i){return !i.cfg},'===']]:game==='samp'?[['sa-mp.cfg',function(i){return i.cfg},'raw'],['nexus_samp_fps_config.txt',function(i){return !i.cfg},'===']]:[['nexus_roblox_fps_preset.txt',function(){return true},'===']];
 on={};items.forEach(function(_,i){on[i]=1});draw()}catch(e){$('#res').innerHTML='<div class="card">Ошибка сборки: '+esc(e.message)+'</div>'}
 busy=false;$('#go').disabled=false;$('#res').scrollIntoView({behavior:'smooth'})}
 function calc(){var g=0,r=0;items.forEach(function(it,i){if(on[i]){g+=it.gain;r+=it.ram||0}});var b=G[game].b[hw],a=Math.round(b*(1+Math.max(g,0)*1.6));return{b:b,a:a,p:Math.round(a*1.4),r0:G[game].r[hw],r1:+(G[game].r[hw]*(1-Math.min(.4,r))).toFixed(1)}}
@@ -190,12 +202,13 @@ setTimeout(function(){document.querySelectorAll('#mt .bar i').forEach(function(e
 var EM={'FPS':'⚡','ОЗУ':'🧠','Конфиг':'📄','Мод':'🧩','Графика':'🎨'};
 function icon(it){return it.icon?'<img src="'+esc(it.icon)+'" alt="" loading="lazy" onerror="this.parentNode.textContent=\''+EM[it.kind]+'\'">':EM[it.kind]}
 function acts(it,i){var h='';if(it.mod){if(it.jar)h+='<a class="b" href="'+esc(it.jar)+'" target="_blank" rel="noopener noreferrer" download="'+esc(it.fn)+'">⬇ .jar '+esc(it.vn||'')+'</a>';h+='<a class="b" href="'+esc(it.page)+'" target="_blank" rel="noopener noreferrer">Modrinth ↗</a>'}
-else{h+='<button onclick="cp(items['+i+'].copy||items['+i+'].blk)">Копировать</button>'}return h}
-function draw(){var vtxt=game==='mc'?' · '+ver+' '+ldr:'';
-$('#res').innerHTML='<div class="card"><div class="bl" style="margin-bottom:8px"><b>'+G[game].n+' · '+HN[hw]+vtxt+'</b><span class="src">'+esc(src)+'</span></div><div id="mt"></div></div><div class="card" id="ls"></div><button class="cta" onclick="free()">Скачать выбранное</button><button class="cta p" onclick="proM()">ZIP-архив + PRO-буст · $1.99</button>';list();metrics()}
+else{h+='<button onclick="cp(items['+i+'].copy||items['+i+'].blk)">Копировать</button>';if(it.link)h+='<a class="b" href="'+esc(it.link)+'" target="_blank" rel="noopener noreferrer">Каталог ↗</a>'}return h}
+function draw(){var vtxt=game==='mc'?' · '+ver+' '+ldr:'',plate='';
+if(game==='mc'){var sv=SV.filter(function(x){return x[0]===srv})[0];plate='<div class="out"><b>✓ Проверка под '+esc(sv[1])+'</b><br><small style="color:var(--mu)">Читы и запрещённые механики (Freecam, X-Ray, радар/ESP, показ ХП, автототем/автокликер) не предлагаются никогда. Списки серверов консервативные, не официальные — сверься с правилами сервера.</small>'+(excl.length?'<details><summary>Отфильтровано для этого сервера ('+excl.length+')</summary>'+excl.map(function(e){return '<div>• '+esc(e)+'</div>'}).join('')+'</details>':'<br><small>Для этого сервера лишнего не отфильтровано.</small>')+'</div>'}
+$('#res').innerHTML='<div class="ready">↓ Сборка готова</div><div class="card"><div class="bl" style="margin-bottom:8px"><b>'+G[game].n+' · '+HN[hw]+vtxt+'</b><span class="src">'+esc(src)+'</span></div><div id="mt"></div></div>'+plate+'<div class="card sc" id="ls"></div><button class="cta" onclick="free()">Скачать выбранное</button><button class="cta p" onclick="proM()">ZIP-архив + PRO-буст · $1.99</button><p class="src" style="margin:8px 0">PRO: ZIP без таймера и рекламы, расширенные пресеты, безлимитный Доктор ошибок.</p>';list();metrics()}
 function list(){$('#ls').innerHTML=items.map(function(it,i){return '<div class="it '+(on[i]?'':'off')+'"><div class="ic">'+icon(it)+'</div><div><b>'+esc(it.name)+'</b><small>'+esc(it.desc)+'</small><br><span class="bd">'+it.kind+'</span>'+(it.gain>0?'<span class="bd x">+FPS</span>':'')+(it.ram>0?'<span class="bd x">ОЗУ</span>':'')+'</div><input type="checkbox" '+(on[i]?'checked':'')+' onchange="on['+i+']=this.checked;list();metrics()" aria-label="Включить"><div class="ac">'+acts(it,i)+'</div></div>'}).join('')}
 function sel(){return items.filter(function(_,i){return on[i]})}
-function bundleText(b,s){var p=s.filter(b[1]).filter(function(i){return i.blk});if(!p.length)return '';var c=b[2]==='//';
+function bundleText(b,s){var p=s.filter(b[1]).filter(function(i){return i.blk});if(!p.length)return '';if(b[2]==='raw')return p.map(function(i){return i.blk}).join('\n')+'\n';var c=b[2]==='//';
 var head=c?L(['// NEXUS.GG — '+G[game].n+' · '+HN[hw],'// Неизвестные команды консоль пропускает, остальное выполняется.','']):'NEXUS.GG — '+G[game].n+' · '+HN[hw]+'\n';
 return head+p.map(function(i){return c?'\n'+i.blk+'\n':'\n=== '+i.name+' ===\n'+i.blk+'\n'}).join('')}
 function bundleBtns(s){return bundles.map(function(b,i){return bundleText(b,s)?'<button style="width:100%;margin:4px 0" onclick="dlB('+i+')">⬇ '+esc(b[0])+'</button>':''}).join('')}
@@ -207,7 +220,7 @@ function links(){var s=sel(),mods=s.filter(function(x){return x.mod}).map(functi
 modal('<h3>Файлы готовы</h3>'+bundleBtns(s)+mods+'<button class="cta p" onclick="proM()">Всё одним ZIP — PRO</button>')}
 /* ---------- PRO ---------- */
 function proM(){var id=Math.random().toString(36).slice(2,8),lk='https://nexus.gg/r/'+id;
-modal('<h3>NEXUS PRO</h3><div class="pl h"><b>Разовый доступ · $1.99</b><br><small style="color:var(--mu)">ZIP-архив и PRO-конфиг</small><div class="pay"><button onclick="pay()">Карта</button><button onclick="pay()">Apple / Google Pay</button><button onclick="pay()">Telegram Stars</button></div></div><div class="pl"><b>PRO на месяц · $4.99</b><br><small style="color:var(--mu)">Пакетные сборки, расширенные пресеты, ИИ-доктор</small><button style="width:100%;margin-top:8px" onclick="pay()">Оформить</button></div><div class="pl"><b>Бесплатно за 3 друзей</b><div class="m" style="font-size:13px;margin:6px 0;overflow-wrap:anywhere;color:var(--ok)">'+lk+'</div><div class="row" style="margin:0"><button onclick="cp(\''+lk+'\')">Копировать ссылку</button><button onclick="inv()">+1 друг (демо)</button><span class="m" id="iv" style="align-self:center">'+invited+' / 3</span></div></div><button class="cta p" onclick="demo()">Тест PRO (собрать .ZIP)</button>')}
+modal('<h3>NEXUS PRO</h3><ul class="feat"><li>Вся сборка одним .zip без таймеров и рекламы</li><li>Расширенные пресеты и PRO-профиль +40% FPS</li><li>Безлимитный Доктор ошибок (без PRO — 3 разбора)</li><li>Проверка легитности под популярные серверы</li><li>Бейдж PRO и бесплатный доступ за 3 друзей</li><li>Кнопка «Тест PRO» — собрать .zip прямо сейчас</li></ul><div class="pl h"><b>Разовый доступ · $1.99</b><br><small style="color:var(--mu)">ZIP-архив и PRO-конфиг</small><div class="pay"><button onclick="pay()">Карта</button><button onclick="pay()">Apple / Google Pay</button><button onclick="pay()">Telegram Stars</button></div></div><div class="pl"><b>PRO на месяц · $4.99</b><br><small style="color:var(--mu)">Пакетные сборки, расширенные пресеты, ИИ-доктор</small><button style="width:100%;margin-top:8px" onclick="pay()">Оформить</button></div><div class="pl"><b>Бесплатно за 3 друзей</b><div class="m" style="font-size:13px;margin:6px 0;overflow-wrap:anywhere;color:var(--ok)">'+lk+'</div><div class="row" style="margin:0"><button onclick="cp(\''+lk+'\')">Копировать ссылку</button><button onclick="inv()">+1 друг (демо)</button><span class="m" id="iv" style="align-self:center">'+invited+' / 3</span></div></div><button class="cta p" onclick="demo()">Тест PRO (собрать .ZIP)</button>')}
 function pay(){toast('Тестовый режим: платёжный шлюз не подключён')}
 function inv(){invited++;if($('#iv'))$('#iv').textContent=Math.min(invited,3)+' / 3';if(invited>=3)demo()}
 async function demo(){pro=true;head();closeM();if(items.length)metrics();if(!sel().length)return toast('PRO активен. Сначала собери сборку');await zip()}
@@ -223,12 +236,29 @@ try{await save('NEXUS_'+game+'_pack.zip',await z.generateAsync({type:'blob'}))}c
 var KB=[[/OutOfMemory|Java heap|GC overhead/i,'Игре не хватает оперативной памяти.',['Выдели больше ОЗУ в лаунчере: -Xmx4G','Закрой браузер и тяжёлые программы','Добавь FerriteCore и ModernFix'],'-Xmx4G -Xms2G -XX:+UseG1GC'],
 [/Mixin|InvalidInjection|NoSuchMethodError|incompatible/i,'Конфликт модов (Mixin).',['Убери дубли оптимизаторов (OptiFine + Sodium)','Обнови все моды под одну версию игры','Убирай моды по одному и ищи виновника'],'# Удали OptiFine при использовании Sodium'],
 [/cfg|autoexec|cs2|counter-strike|vac/i,'Ошибка конфига или файлов CS2.',['Проверь целостность файлов в Steam','Удали битые строки из конфига','Убери параметры запуска и запусти заново'],'-novid -high +exec nexus_fps_autoexec'],
-[/GTA|FiveM|RAGE|citizen|ERR_|вылет/i,'Вылет GTA 5 RP: память, кэш или драйвер.',['Очисти кэш клиента','Увеличь файл подкачки Windows','Выбери DirectX 11 и обнови драйвер GPU'],'DirectX: 11\nФайл подкачки: 16 ГБ+']];
-function doctor(){modal('<h3>Доктор ошибок</h3><textarea id="cr" placeholder="Вставь текст ошибки или краш-лога"></textarea><div class="ex"><button onclick="ex(\'java.lang.OutOfMemoryError: Java heap space\')">OutOfMemory / Heap</button><button onclick="ex(\'Mixin apply failed InvalidInjectionException\')">Mixin / Конфликт</button><button onclick="ex(\'CS2 autoexec.cfg unknown command\')">CS2 / Конфиг</button><button onclick="ex(\'GTA 5 RP вылет при загрузке ERR_MEM\')">GTA 5 RP / Вылет</button></div><button class="cta" onclick="diag()">Найти решение</button><div id="dg"></div>')}
+[/SA-?MP|CRMP|gta_sa|d3d9|samp\.dll|вылет/i,'Вылет SA-MP / CRMP: битая заменка, .asi или драйвер.',['Убери папку modloader и лишние .asi/.cleo','Запусти gta_sa.exe от администратора','Поставь fpslimit 60–90 и обнови драйвер GPU'],'fpslimit=60\nmulticore=1']];
+function doctor(){modal('<h3>Доктор ошибок</h3><textarea id="cr" placeholder="Вставь текст ошибки или краш-лога"></textarea><div class="ex"><button onclick="ex(\'java.lang.OutOfMemoryError: Java heap space\')">OutOfMemory / Heap</button><button onclick="ex(\'Mixin apply failed InvalidInjectionException\')">Mixin / Конфликт</button><button onclick="ex(\'CS2 autoexec.cfg unknown command\')">CS2 / Конфиг</button><button onclick="ex(\'SA-MP вылет gta_sa.exe samp.dll\')">SA-MP / Вылет</button></div><button class="cta" onclick="diag()">Найти решение</button><div id="dg"></div>')}
 function ex(t){$('#cr').value=t;diag()}
-function diag(){var t=$('#cr').value,h=KB.filter(function(k){return k[0].test(t)})[0],e=$('#dg');if(!t.trim())return toast('Вставь текст ошибки');
+function diag(){var t=$('#cr').value,h=KB.filter(function(k){return k[0].test(t)})[0],e=$('#dg');if(!t.trim())return toast('Вставь текст ошибки');if(!pro&&++dc>3){toast('Лимит без PRO: 3 разбора');return proM()}
 if(!h){e.innerHTML='<div class="out"><b>Причина не определена.</b><br>Проверь версию игры и Java, обнови драйвер GPU и вставь полный лог.</div>';return}
 window._f='NEXUS.GG — фикс\nПричина: '+h[1]+'\n\nШаги:\n'+h[2].map(function(s,i){return (i+1)+'. '+s}).join('\n')+'\n\nПараметры:\n'+h[3]+'\n';
 e.innerHTML='<div class="out"><b>Причина:</b> '+esc(h[1])+'<ol style="padding-left:18px;margin:8px 0 0">'+h[2].map(function(s){return '<li>'+esc(s)+'</li>'}).join('')+'</ol></div><button style="width:100%" onclick="save(\'nexus_fix.txt\',window._f)">Скачать фикс (.txt)</button>'}
-head();
+/* ЗАМЕНИ: ссылка на твою банку Monobank */
+var JAR_URL='https://send.monobank.ua/jar/YOUR_JAR_ID';
+/* ЗАМЕНИ: номер карты (16 цифр) — он копируется кнопкой, на экране показана маска */
+var CARD_REAL='';var CARD_MASK='4441 •••• •••• 0000';
+var SV=[['fun','FunTime'],['holy','HolyWorld'],['really','ReallyWorld'],['sun','SunRise / AresMine'],['hyp','Hypixel'],['solo','Одиночка / Без ограничений']];
+var BAN={fun:['xaeros-minimap','lambdynamiclights'],holy:['xaeros-minimap','lambdynamiclights'],really:['xaeros-minimap','lambdynamiclights','iris'],sun:['xaeros-minimap','lambdynamiclights'],hyp:[],solo:[]};
+var RS={'xaeros-minimap':'мини-карта может показывать игроков и пещеры — на таких серверах обычно запрещена','lambdynamiclights':'динамический свет часто приравнивают к подсветке (Fullbright)','iris':'шейдеры на части серверов запрещены'};
+var srv='fun',excl=[],dc=0,lc=0,me='Online',base={on:118+Math.floor(Math.random()*40),afk:7+Math.floor(Math.random()*8)};
+function filterSrv(){excl=[];var ban=BAN[srv]||[];items=items.filter(function(i){if(i.mod&&ban.indexOf(i.id)>=0){excl.push(i.name+' — '+(RS[i.id]||'может нарушать правила'));return false}return true})}
+function eggs(t){var re=game==='mc'?/чит|x-?ray|wallhack|аим|(^|[\s,])вх($|[\s,])/:/чит|x-?ray|wallhack|(^|[\s,])вх($|[\s,])/;if(re.test(t))toast('😏 Только легит: за читы банят, а сборки NEXUS идут по правилам')}
+function logo(){lc++;clearTimeout(logo.t);logo.t=setTimeout(function(){lc=0},1500);if(lc>=5){lc=0;document.body.classList.toggle('sec');toast('🕹️ Секретный режим: 999 FPS, монитор не выдержал')}}
+function stat(){$('#on').textContent=base.on+(me==='Online'?1:0);$('#afk').textContent=base.afk+(me==='AFK'?1:0);var m=$('#me');m.textContent=me;m.style.color=me==='AFK'?'#F59E0B':'#10B981'}
+setInterval(function(){base.on=Math.max(60,base.on+Math.round(Math.random()*4-2));base.afk=Math.max(2,base.afk+Math.round(Math.random()*2-1));stat()},4000);
+document.addEventListener('visibilitychange',function(){me=document.hidden?'AFK':'Online';stat()});
+function copyCard(){if(!CARD_REAL)return toast('Номер карты ещё не указан автором');cp(CARD_REAL)}
+$('#jar').href=JAR_URL;$('#jar').addEventListener('click',function(e){if(JAR_URL.indexOf('YOUR_JAR_ID')>=0){e.preventDefault();toast('Ссылка на банку ещё не настроена')}});
+$('#cn').textContent=CARD_REAL?CARD_REAL.replace(/\s/g,'').replace(/(\d{4})\d{8}(\d{4})/,'$1 •••• •••• $2'):CARD_MASK;
+head();stat();
 </script></body></html>
